@@ -19,3 +19,10 @@
   - Clean display at 375px mobile viewport with zero horizontal overflow.
 - **Git Commit Target**: `feat(css): tokens & reset`
 
+### Sub-Task T-02B: 2D Grid Layout
+- **Scope**: Responsive project card grid using pure semantic HTML and 2D CSS Grid.
+- **Constraints**:
+  - Zero `<div>` tags; structure cards with `<article>`, `<header>`, `<h3>`, `<p>`, `<footer>`.
+  - Grid rule: `repeat(auto-fit, minmax(280px, 1fr))` with `gap: 1.5rem`.
+  - Fluid responsiveness without media queries.
+- **Git Commit Target**: `feat(css): responsive grid`
