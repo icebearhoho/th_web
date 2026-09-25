@@ -69,11 +69,38 @@
   <section id="feed-component" aria-busy="true" aria-live="polite">
   <h2>Recent Activity</h2>
 
-  <ul class="skeleton-list">
-    <li class="skeleton-item"></li>
-    <li class="skeleton-item"></li>
-    <li class="skeleton-item"></li>
+  <ul class="skeleton-list" hidden>
+  <li class="skeleton-item"></li>
+  <li class="skeleton-item"></li>
+  <li class="skeleton-item"></li>
   </ul>
+
+    <ul class="activity-list" id="activity-list">
+      <li class="activity-card">
+        <article>
+          <header class="activity-header">
+            <h3>Merged Pull Request #42</h3>
+            <span class="badge">GitHub</span>
+          </header>
+          <p>Integrated WCAG 2.2 AA accessibility audit tests into continuous delivery pipeline.</p>
+          <footer class="activity-footer">
+            <time datetime="2026-09-25">Sep 25, 2026</time>
+          </footer>
+        </article>
+      </li>
+      <li class="activity-card">
+        <article>
+          <header class="activity-header">
+            <h3>Released v1.2.0</h3>
+            <span class="badge">Release</span>
+          </header>
+          <p>Autonomous 2D grid engine with container query fallbacks deployed.</p>
+          <footer class="activity-footer">
+            <time datetime="2026-09-24">Sep 24, 2026</time>
+          </footer>
+        </article>
+      </li>
+    </ul>
   </section>
   </main>
 
