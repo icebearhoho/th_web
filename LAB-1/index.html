@@ -76,7 +76,7 @@
   </ul>
 
     <ul class="activity-list" id="activity-list">
-      <li class="activity-card">
+      <li class="activity-card" hidden>
         <article>
           <header class="activity-header">
             <h3>Merged Pull Request #42</h3>
@@ -88,7 +88,7 @@
           </footer>
         </article>
       </li>
-      <li class="activity-card">
+      <li class="activity-card" hidden>
         <article>
           <header class="activity-header">
             <h3>Released v1.2.0</h3>
@@ -99,7 +99,16 @@
             <time datetime="2026-09-24">Sep 24, 2026</time>
           </footer>
         </article>
+        
       </li>
+    <article class="feed-feedback feed-empty" id="feed-empty" hidden >
+      <p>No recent activity found. Check back later!</p>
+    </article>
+
+    <article class="feed-feedback feed-error" id="feed-error" role="alert" >
+      <p>Failed to load recent activity feed.</p>
+      <button type="button" class="retry-btn" id="retry-btn">Retry Connection</button>
+    </article>
     </ul>
   </section>
   </main>
