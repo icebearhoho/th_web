@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Portfolio</title>
+</head>
+<body>
+
+  <!-- 1. Accessible Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- 2. Header Landmark -->
+  <header role="banner">
+    <h1>Jane Doe, Lead Engineer</h1>
+  </header>
+
+  <!-- 3. Navigation Landmark -->
+  <nav role="navigation" aria-label="Primary">
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- 4. Main Landmark with Sections -->
+  <main id="main-content" role="main">
+    <section id="about">
+      <h2>About Me</h2>
+      <p>Software engineer focusing on resilient web applications and accessible interfaces.</p>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <p>Project showcase coming soon.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Get in touch via email or GitHub.</p>
+    </section>
+  </main>
+
+  <!-- 5. Footer Landmark -->
+  <footer role="contentinfo">
+    <p>&copy; 2026 Jane Doe. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
