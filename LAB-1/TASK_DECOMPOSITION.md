@@ -35,3 +35,20 @@
   - Zero console errors during dynamic theme toggling.
   - Full keyboard accessibility (Tab and Enter/Space support).
 - **Git Commit Target**: `feat(js): dark mode engine`
+
+## Exercise 3: Resilient Component Architecture
+
+### Sub-Task T-03A: Loading Skeleton
+- **Scope**: Pure CSS shimmer gradient skeleton loader.
+- **Constraints**: No external libraries; animated CSS linear gradient.
+- **Git Commit Target**: `feat(css): skeleton`
+
+### Sub-Task T-03B: Live Data State
+- **Scope**: Active data presentation layout with metadata badges.
+- **Constraints**: CSS Grid and Flexbox alignment.
+- **Git Commit Target**: `feat(css): component live state`
+
+### Sub-Task T-03C: Empty & Error States
+- **Scope**: Resilient empty feedback and error state with accessible retry trigger.
+- **Constraints**: Accessible interactive retry button, zero unescaped innerHTML.
+- **Git Commit Target**: `feat(ui): empty and error states`
