@@ -26,3 +26,12 @@
   - Grid rule: `repeat(auto-fit, minmax(280px, 1fr))` with `gap: 1.5rem`.
   - Fluid responsiveness without media queries.
 - **Git Commit Target**: `feat(css): responsive grid`
+
+### Sub-Task T-02C: Theme Engine
+- **Scope**: Client-side theme switching logic with localStorage persistence.
+- **Constraints**:
+  - Accessible toggle button with dynamic `aria-pressed` attribute.
+  - State persisted under key `'theme'` in `localStorage`.
+  - Zero console errors during dynamic theme toggling.
+  - Full keyboard accessibility (Tab and Enter/Space support).
+- **Git Commit Target**: `feat(js): dark mode engine`
