@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resilient Tech Summit 2026</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Resilient Tech Summit 2026</h1>
+      <p>High-reliability web engineering conference.</p>
+    </header>
+
+    <!-- Slice 1: Drift-Free Countdown Section -->
+    <section id="countdown-section" aria-labelledby="countdown-heading">
+      <h2 id="countdown-heading">Registration Closes In</h2>
+      <div class="countdown-grid" id="countdown-display" aria-live="off">
+        <div class="time-box">
+          <span class="time-val" id="days">00</span>
+          <span class="time-label">Days</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="hours">00</span>
+          <span class="time-label">Hours</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="minutes">00</span>
+          <span class="time-label">Minutes</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="seconds">00</span>
+          <span class="time-label">Seconds</span>
+        </div>
+      </div>
+      <p id="countdown-finished-msg" hidden role="alert">Registration has concluded.</p>
+    </section>
+  </main>
+
+  <script src="countdown.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
