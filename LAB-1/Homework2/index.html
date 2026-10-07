@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polyphonic Drum Kit Engine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Drum Kit Engine</h1>
+
+    <!-- 1. Drum Pads Container -->
+    <div class="drum-container" id="drum-container">
+      <button type="button" class="drum-pad" data-key="j" data-sound="clap">
+        <kbd>A</kbd>
+        <span class="sound-name">Clap</span>
+      </button>
+      <button type="button" class="drum-pad" data-key="k" data-sound="hihat">
+        <kbd>S</kbd>
+        <span class="sound-name">Hi-Hat</span>
+      </button>
+      <button type="button" class="drum-pad" data-key="d" data-audio="kick">
+        <kbd>D</kbd>
+        <span class="sound-name">Kick</span>
+      </button>
+      <button type="button" class="drum-pad" data-key="f" data-sound="snare">
+        <kbd>F</kbd>
+        <span class="sound-name">Snare</span>
+      </button>
+      <button type="button" class="drum-pad" data-key="g" data-sound="tom">
+        <kbd>G</kbd>
+        <span class="sound-name">Tom</span>
+      </button>
+    </div>
+
+    <!-- 2. Beat Recorder Controls -->
+    <div class="recorder-panel">
+      <button type="button" id="record-btn">Record</button>
+      <button type="button" id="play-btn" disabled>Playback</button>
+      <button type="button" id="clear-btn" disabled>Clear</button>
+      <span id="status-indicator">Idle</span>
+    </div>
+  </main>
+
+  <!-- Modular Scripts -->
+  <script src="audio-engine.js"></script>
+  <script src="recorder.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

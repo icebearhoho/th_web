@@ -1,0 +1,81 @@
+body {
+  font-family: system-ui, sans-serif;
+  background-color: #0f172a;
+  color: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main {
+  text-align: center;
+}
+
+.drum-container {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  justify-content: center;
+}
+
+.drum-pad {
+  background-color: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  color: #f8fafc;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.08s ease, border-color 0.08s ease;
+}
+
+.drum-pad kbd {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.drum-pad .sound-name {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.drum-pad.playing {
+  transform: scale(1.1);
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+}
+
+.recorder-panel {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.recorder-panel button {
+  padding: 0.5rem 1rem;
+  background-color: #38bdf8;
+  color: #0f172a;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.recorder-panel button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+#status-indicator {
+  margin-left: 0.5rem;
+  color: #94a3b8;
+  font-style: italic;
+}
