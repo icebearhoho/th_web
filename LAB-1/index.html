@@ -28,89 +28,91 @@
 
   <!-- 4. Main Landmark with Sections -->
   <main id="main-content" role="main">
-    <section id="about">
-      <h2>About Me</h2>
+    <section id="about" aria-labelledby="about-heading">
+      <h2 id="about-heading">About Me</h2>
       <p>Software engineer focusing on resilient web applications and accessible interfaces.</p>
     </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <ul class="project-grid">
-      <li>
-        <article class="project-card">
-          <header>
-            <h3>Distributed State Engine</h3>
-          </header>
-          <p>Lightweight event bus built without external libraries.</p>
-          <footer>
-            <a href="#" aria-label="View Distributed State Engine project">Source Code</a>
-          </footer>
-        </article>
-      </li>
-      <li>
-        <article class="project-card">
-          <header>
-            <h3>Audio Synthesizer</h3>
-          </header>
-          <p>Web Audio API polyphonic engine with custom key mappings.</p>
-          <footer>
-            <a href="#" aria-label="View Audio Synthesizer project">Source Code</a>
-          </footer>
-        </article>
-      </li>
-    </ul>
-  </section>
+    <section id="projects" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Projects</h2>
+      <ul class="project-grid">
+        <li>
+          <article class="project-card">
+            <header>
+              <h3>Distributed State Engine</h3>
+            </header>
+            <p>Lightweight event bus built without external libraries.</p>
+            <footer>
+              <a href="#" aria-label="View Distributed State Engine project">Source Code</a>
+            </footer>
+          </article>
+        </li>
+        <li>
+          <article class="project-card">
+            <header>
+              <h3>Audio Synthesizer</h3>
+            </header>
+            <p>Web Audio API polyphonic engine with custom key mappings.</p>
+            <footer>
+              <a href="#" aria-label="View Audio Synthesizer project">Source Code</a>
+            </footer>
+          </article>
+        </li>
+      </ul>
+    </section>
 
-    <section id="contact">
-      <h2>Contact</h2>
+    <section id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact</h2>
       <p>Get in touch via email or GitHub.</p>
     </section>
 
-  <section id="feed-component" aria-busy="true" aria-live="polite">
-  <h2>Recent Activity</h2>
+    <section id="feed-component" aria-labelledby="feed-heading" aria-busy="true" aria-live="polite">
+      <h2 id="feed-heading">Recent Activity</h2>
 
-  <ul class="skeleton-list" hidden>
-  <li class="skeleton-item"></li>
-  <li class="skeleton-item"></li>
-  <li class="skeleton-item"></li>
-  </ul>
+      <ul class="skeleton-list" hidden>
+        <li class="skeleton-item"></li>
+        <li class="skeleton-item"></li>
+        <li class="skeleton-item"></li>
+      </ul>
 
-    <ul class="activity-list" id="activity-list">
-      <li class="activity-card" hidden>
-        <article>
-          <header class="activity-header">
-            <h3>Merged Pull Request #42</h3>
-            <span class="badge">GitHub</span>
-          </header>
-          <p>Integrated WCAG 2.2 AA accessibility audit tests into continuous delivery pipeline.</p>
-          <footer class="activity-footer">
-            <time datetime="2026-09-25">Sep 25, 2026</time>
-          </footer>
-        </article>
-      </li>
-      <li class="activity-card" hidden>
-        <article>
-          <header class="activity-header">
-            <h3>Released v1.2.0</h3>
-            <span class="badge">Release</span>
-          </header>
-          <p>Autonomous 2D grid engine with container query fallbacks deployed.</p>
-          <footer class="activity-footer">
-            <time datetime="2026-09-24">Sep 24, 2026</time>
-          </footer>
-        </article>
-        
-      </li>
-    <article class="feed-feedback feed-empty" id="feed-empty" hidden >
-      <p>No recent activity found. Check back later!</p>
-    </article>
+      <!-- Direct children are now strictly <li> elements -->
+      <ul class="activity-list" id="activity-list">
+        <li class="activity-card" hidden>
+          <article>
+            <header class="activity-header">
+              <h3>Merged Pull Request #42</h3>
+              <span class="badge">GitHub</span>
+            </header>
+            <p>Integrated WCAG 2.2 AA accessibility audit tests into continuous delivery pipeline.</p>
+            <footer class="activity-footer">
+              <time datetime="2026-09-25">Sep 25, 2026</time>
+            </footer>
+          </article>
+        </li>
+        <li class="activity-card" hidden>
+          <article>
+            <header class="activity-header">
+              <h3>Released v1.2.0</h3>
+              <span class="badge">Release</span>
+            </header>
+            <p>Autonomous 2D grid engine with container query fallbacks deployed.</p>
+            <footer class="activity-footer">
+              <time datetime="2026-09-24">Sep 24, 2026</time>
+            </footer>
+          </article>
+        </li>
+      </ul>
 
-    <article class="feed-feedback feed-error" id="feed-error" role="alert" >
-      <p>Failed to load recent activity feed.</p>
-      <button type="button" class="retry-btn" id="retry-btn">Retry Connection</button>
-    </article>
-    </ul>
-  </section>
+      <!-- Feedback articles moved outside the <ul> to fix semantic nesting -->
+      <article class="feed-feedback feed-empty" id="feed-empty" hidden>
+        <p>No recent activity found. Check back later!</p>
+      </article>
+
+      <article class="feed-feedback feed-error" id="feed-error" role="alert">
+        <p>Failed to load recent activity feed.</p>
+        <button type="button" class="retry-btn" id="retry-btn">Retry Connection</button>
+      </article>
+    </section>
   </main>
 
   <!-- 5. Footer Landmark -->

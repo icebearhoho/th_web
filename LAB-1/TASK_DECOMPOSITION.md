@@ -52,3 +52,31 @@
 - **Scope**: Resilient empty feedback and error state with accessible retry trigger.
 - **Constraints**: Accessible interactive retry button, zero unescaped innerHTML.
 - **Git Commit Target**: `feat(ui): empty and error states`
+
+## Homework 1: Production Portfolio Hardening
+
+### Milestone M1: WCAG 2.2 AA Audit & Landmarks
+- **Task M1.1**: Audit and repair landmark tree; ensure proper `aria-labelledby` bindings for all content sections.
+- **Task M1.2**: Fix invalid semantic child nesting (remove `<article>` feedback elements from inside `<ul>`).
+- **Task M1.3**: Adjust design tokens to meet WCAG 2.2 AA minimum contrast ratio (>= 4.5:1) in both light and dark themes.
+- **Verification Gate**: Inspect Chrome DevTools Accessibility tree and verify zero contrast warnings in Lighthouse.
+- **Git Commit Target**: `fix(a11y): contrast & landmarks`
+
+### Milestone M2: Focus Trap & Keyboard Navigation Audit
+- **Task M2.1**: Establish universal high-visibility `:focus-visible` ring across all interactive controls (`a`, `button`, `input`).
+- **Task M2.2**: Implement accessible contact modal dialog with top-layer native focus containment (`dialog.showModal()`).
+- **Task M2.3**: Ensure complete keyboard escape (`Escape` key) and focus restoration back to opener element.
+- **Verification Gate**: Full keyboard-only navigation test (`Tab`, `Shift+Tab`, `Enter`, `Escape`) with zero mouse interaction.
+- **Git Commit Target**: `fix(nav): keyboard trap prevention`
+
+### Milestone M3: Strict CSP & Inline Handler Elimination
+- **Task M3.1**: Inject strict `Content-Security-Policy` meta header to disallow inline scripts and external injection vectors.
+- **Task M3.2**: Audit codebase to ensure zero inline DOM handlers (`onclick`, `onchange`, etc.) exist.
+- **Verification Gate**: Verify zero CSP violation errors reported in browser console.
+- **Git Commit Target**: `fix(security): enforce strict CSP and decouple event handlers`
+
+### Milestone M4: Lighthouse 100 Asset & Performance Optimization
+- **Task M4.1**: Eliminate Cumulative Layout Shift (CLS <= 0.1) by setting explicit `width` and `height` on media elements.
+- **Task M4.2**: Implement next-generation responsive media via `<picture>` with AVIF and WebP fallback sources, `loading="lazy"`, and `decoding="async"`.
+- **Verification Gate**: Run Google Lighthouse Performance audit on Fast 3G throttling to verify 100 audit score and zero CLS.
+- **Git Commit Target**: `perf: optimize assets`

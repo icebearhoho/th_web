@@ -11,7 +11,9 @@
 :root {
   --bg-primary: #ffffff;
   --text-primary: #0f172a;
-  --accent: #0284c7;
+  --text-secondary: #475569;   
+  --accent: #0369a1;             
+  --badge-text: #ffffff;
   --card-bg: #f8fafc;
   --border-color: #cbd5e1;
 }
@@ -21,7 +23,9 @@
   :root:not(.light-theme) {
     --bg-primary: #0f172a;
     --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
     --accent: #38bdf8;
+    --badge-text: #0f172a;       
     --card-bg: #1e293b;
     --border-color: #334155;
   }
