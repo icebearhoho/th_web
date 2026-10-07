@@ -36,9 +36,31 @@
       </div>
       <p id="countdown-finished-msg" hidden role="alert">Registration has concluded.</p>
     </section>
+    <!-- Slice 2: Event Registration Form Section -->
+    <section id="registration-section" aria-labelledby="reg-heading">
+      <h2 id="reg-heading">Reserve Your Pass</h2>
+      
+      <form id="event-form" novalidate>
+        <div class="form-group">
+          <label for="attendee-name">Full Name</label>
+          <input type="text" id="attendee-name" name="name" required minlength="2" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="attendee-email">Email Address</label>
+          <input type="email" id="attendee-email" name="email" required autocomplete="email">
+        </div>
+
+        <button type="submit" id="submit-btn">Register Now</button>
+      </form>
+
+      <div id="form-feedback" class="feedback-area" aria-live="polite" role="status"></div>
+    </section>
   </main>
 
-  <script src="countdown.js"></script>
+    <script src="countdown.js"></script>
+  <script src="form-machine.js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>

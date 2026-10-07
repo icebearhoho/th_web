@@ -1,14 +1,14 @@
 # WBS: Homework 3 - Resilient Event Hub & AI Failure Audit
 
 ## Slice 1: Drift-Free Countdown Engine
-- [ ] T-01: ISO 8601 UTC target timestamp configuration.
-- [ ] T-02: Self-correcting time delta calculation against system clock.
-- [ ] Target Commit: `feat(countdown): drift-free utc timer engine`
+- [x] T-01: ISO 8601 UTC target timestamp configuration.
+- [x] T-02: Self-correcting time delta calculation against system clock.
+- [x] Target Commit: `feat(countdown): drift-free utc timer engine`
 
 ## Slice 2: State-Machine Event Registration Form
-- [ ] T-03: Explicit Finite State Machine (IDLE -> SUBMITTING -> SUCCESS / ERROR).
-- [ ] T-04: Interactive input locking and ARIA live region feedback.
-- [ ] Target Commit: `feat(form): finite state machine submission lifecycle`
+- [x] T-03: Explicit Finite State Machine (IDLE -> SUBMITTING -> SUCCESS / ERROR).
+- [x] T-04: Interactive input locking and ARIA live region feedback.
+- [x] Target Commit: `feat(form): finite state machine submission lifecycle`
 
 ## Slice 3: Double-Submit Prevention & XSS Sanitization
 - [ ] T-05: Strict debouncing, in-flight AbortController, and button throttling.

@@ -58,3 +58,89 @@ main {
   color: var(--muted);
   margin-top: 0.25rem;
 }
+
+#registration-section {
+  margin-top: 2rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  text-align: left;
+}
+
+#registration-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.form-group input {
+  padding: 0.6rem 0.8rem;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: 2px solid var(--accent);
+  border-color: var(--accent);
+}
+
+#submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--accent);
+  color: #090d16;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: opacity 0.2s ease;
+}
+
+#submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.feedback-area {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  display: none;
+}
+
+.feedback-area:not(:empty) {
+  display: block;
+}
+
+.feedback-area.info {
+  background-color: #1e293b;
+  color: #38bdf8;
+  border: 1px solid #0284c7;
+}
+
+.feedback-area.success {
+  background-color: #064e3b;
+  color: #6ee7b7;
+  border: 1px solid #059669;
+}
+
+.feedback-area.error {
+  background-color: #450a0a;
+  color: #fca5a5;
+  border: 1px solid #dc2626;
+}
