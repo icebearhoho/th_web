@@ -16,6 +16,6 @@
 - [x] Target Commit: `fix(security): double-submit prevention and xss sanitization`
 
 ## Slice 4: AI Failure Audit Report & Defensive Polish
-- [ ] T-07: Document 3 AI-induced anti-patterns, diagnostics, and refactored solutions.
-- [ ] Target Commit: `docs(audit): document ai failure modes and refactoring rationale`
-- [ ] Target Commit: `chore(release): final resilient landing page delivery`
+- [x] T-07: Document 3 AI-induced anti-patterns, diagnostics, and refactored solutions.
+- [x] Target Commit: `docs(audit): document ai failure modes and refactoring rationale`
+- [x] Target Commit: `chore(release): final resilient landing page delivery`
