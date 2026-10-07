@@ -11,9 +11,9 @@
 - [x] Target Commit: `feat(form): finite state machine submission lifecycle`
 
 ## Slice 3: Double-Submit Prevention & XSS Sanitization
-- [ ] T-05: Strict debouncing, in-flight AbortController, and button throttling.
-- [ ] T-06: DOM textNode/textContent escaping to prevent stored and reflected XSS.
-- [ ] Target Commit: `fix(security): double-submit prevention and xss sanitization`
+- [x] T-05: Strict debouncing, in-flight AbortController, and button throttling.
+- [x] T-06: DOM textNode/textContent escaping to prevent stored and reflected XSS.
+- [x] Target Commit: `fix(security): double-submit prevention and xss sanitization`
 
 ## Slice 4: AI Failure Audit Report & Defensive Polish
 - [ ] T-07: Document 3 AI-induced anti-patterns, diagnostics, and refactored solutions.
