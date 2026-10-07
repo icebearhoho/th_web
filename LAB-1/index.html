@@ -61,10 +61,27 @@
       </ul>
     </section>
 
-    <section id="contact" aria-labelledby="contact-heading">
-      <h2 id="contact-heading">Contact</h2>
-      <p>Get in touch via email or GitHub.</p>
-    </section>
+  <section id="contact" aria-labelledby="contact-heading">
+    <h2 id="contact-heading">Contact</h2>
+    <p>Get in touch via encrypted transmission or standard correspondence.</p>
+    <button type="button" id="open-contact-dialog">Send Message</button>
+
+    <dialog id="contact-dialog" aria-labelledby="dialog-heading">
+      <h3 id="dialog-heading">Dispatch Inquiry</h3>
+      <form method="dialog" id="contact-form">
+        <label for="contact-email">Your Email Address:</label>
+        <input type="email" id="contact-email" name="email" required autocomplete="email">
+
+        <label for="contact-msg">Message Payload:</label>
+        <textarea id="contact-msg" name="message" rows="4" required></textarea>
+
+        <menu style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem; list-style: none;">
+          <li><button type="button" id="close-dialog-btn">Dismiss</button></li>
+          <li><button type="submit" value="default">Transmit</button></li>
+        </menu>
+      </form>
+    </dialog>
+  </section>
 
     <section id="feed-component" aria-labelledby="feed-heading" aria-busy="true" aria-live="polite">
       <h2 id="feed-heading">Recent Activity</h2>
@@ -121,6 +138,6 @@
   </footer>
   
   <script src="theme-toggle.js"></script>
-
+  <script src="contact-dialog.js"></script>
 </body>
 </html>
