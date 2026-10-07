@@ -12,38 +12,38 @@
 
     <!-- 1. Drum Pads Container -->
     <div class="drum-container" id="drum-container">
-      <button type="button" class="drum-pad" data-key="j" data-sound="clap">
+      <button type="button" class="drum-pad" data-key="a" data-sound="clap" aria-label="Play clap sound with key A">
         <kbd>A</kbd>
         <span class="sound-name">Clap</span>
       </button>
-      <button type="button" class="drum-pad" data-key="k" data-sound="hihat">
+      <button type="button" class="drum-pad" data-key="s" data-sound="hihat" aria-label="Play hi-hat sound with key S">
         <kbd>S</kbd>
         <span class="sound-name">Hi-Hat</span>
       </button>
-      <button type="button" class="drum-pad" data-key="d" data-audio="kick">
+      <button type="button" class="drum-pad" data-key="d" data-sound="kick" aria-label="Play kick sound with key D">
         <kbd>D</kbd>
         <span class="sound-name">Kick</span>
       </button>
-      <button type="button" class="drum-pad" data-key="f" data-sound="snare">
+      <button type="button" class="drum-pad" data-key="f" data-sound="snare" aria-label="Play snare sound with key F">
         <kbd>F</kbd>
         <span class="sound-name">Snare</span>
       </button>
-      <button type="button" class="drum-pad" data-key="g" data-sound="tom">
+      <button type="button" class="drum-pad" data-key="g" data-sound="tom" aria-label="Play tom sound with key G">
         <kbd>G</kbd>
         <span class="sound-name">Tom</span>
       </button>
     </div>
 
-    <!-- 2. Beat Recorder Controls -->
+    <!-- 2. Beat Recorder Controls (Duy nhất 1 panel đầy đủ) -->
     <div class="recorder-panel">
       <button type="button" id="record-btn">Record</button>
       <button type="button" id="play-btn" disabled>Playback</button>
+      <button type="button" id="loop-btn" disabled>Loop</button>
       <button type="button" id="clear-btn" disabled>Clear</button>
       <span id="status-indicator">Idle</span>
     </div>
   </main>
 
-  <!-- Modular Scripts -->
   <script src="audio-engine.js"></script>
   <script src="recorder.js"></script>
   <script src="app.js"></script>

@@ -79,3 +79,7 @@ main {
   color: #94a3b8;
   font-style: italic;
 }
+.drum-pad:focus-visible {
+  outline: 3px solid #38bdf8;
+  outline-offset: 3px;
+}
