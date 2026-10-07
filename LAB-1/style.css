@@ -264,3 +264,12 @@ a:visited {
   margin-top: 1rem;
   list-style: none;
 }
+
+/* Responsive Image Optimization (Milestone M4) */
+picture img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
