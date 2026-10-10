@@ -23,3 +23,14 @@ export type Dispatch<T> = (value: StateUpdater<T>) => void;
 export interface DOMWithVNode extends HTMLElement {
   __vnode?: VNode;
 }
+
+export interface Item {
+  readonly id: string;
+  readonly title: string;
+}
+
+export type ViewState<T> =
+  | { readonly status: 'IDLE' }
+  | { readonly status: 'LOADING' }
+  | { readonly status: 'SUCCESS'; readonly data: T }
+  | { readonly status: 'ERROR'; readonly error: string };

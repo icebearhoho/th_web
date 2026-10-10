@@ -3,10 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sprint 2: Reactive State & Delegation Hub</title>
+  <title>Sprint 3: Resilient State Machine & Skeleton Loader</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 24px;
+    }
+    .feed-container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    button {
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+    .error-msg {
+      color: #b91c1c;
+      background: #fef2f2;
+      padding: 12px;
+      border: 1px solid #f87171;
+      border-radius: 4px;
+    }
+    .feed-list {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    /* Pulsing Skeleton Loader Animation */
+    .skeleton-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .skeleton-box {
+      background: #e2e8f0;
+      border-radius: 4px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    .skeleton-line {
+      height: 24px;
+      width: 100%;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.4;
+      }
+    }
+  </style>
 </head>
 <body>
   <div id="app"></div>
-  <script type="module" src="./checkpoint2-verify.js"></script>
+  <script type="module" src="./checkpoint3-verify.js"></script>
 </body>
 </html>
