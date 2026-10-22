@@ -1,29 +1,33 @@
 import './style.css'
 import { createAudioContextManager } from './audio/audioContextManager'
-import { playBuffer } from './audio/playBuffer'
-import type { Playback } from './audio/playBuffer'
+import { createAudioSession } from './audio/audioSession'
 import { createTestTone } from './audio/testTone'
 
-const manager = createAudioContextManager()
 const app = document.querySelector<HTMLDivElement>('#app')!
 
 const heading = document.createElement('h1')
 heading.textContent = 'HW2: Audio Visualizer Queue'
 
-const startButton = document.createElement('button')
-startButton.type = 'button'
-startButton.textContent = 'Start audio'
+const canvas = document.createElement('canvas')
+canvas.width = 640
+canvas.height = 200
+canvas.setAttribute('role', 'img')
+canvas.setAttribute('aria-label', 'Live frequency spectrum of the playing audio')
 
-const toneButton = document.createElement('button')
-toneButton.type = 'button'
-toneButton.textContent = 'Play test tone'
+const manager = createAudioContextManager()
+const session = createAudioSession(canvas, manager)
 
-const stopButton = document.createElement('button')
-stopButton.type = 'button'
-stopButton.textContent = 'Stop audio'
+function makeButton(label: string): HTMLButtonElement {
+  const button = document.createElement('button')
+  button.type = 'button'
+  button.textContent = label
+  return button
+}
 
+const startButton = makeButton('Start audio')
+const toneButton = makeButton('Play test tone')
+const stopButton = makeButton('Stop audio')
 const status = document.createElement('output')
-let playback: Playback | null = null
 
 function showState(): void {
   status.textContent = `Audio context: ${manager.getState()}`
@@ -36,20 +40,19 @@ startButton.addEventListener('click', async () => {
 
 toneButton.addEventListener('click', async () => {
   const context = await manager.ensureRunning()
-  playback?.stop()
-  const current = playBuffer(context, createTestTone(context))
-  playback = current
+  session.play(context, createTestTone(context))
   showState()
-  await current.ended
-  if (playback === current) playback = null
 })
 
 stopButton.addEventListener('click', async () => {
-  playback?.stop()
-  playback = null
-  await manager.close()
+  await session.dispose()
   showState()
 })
 
+// Leaving the page releases the audio hardware and cancels the animation loop.
+window.addEventListener('pagehide', () => {
+  void session.dispose()
+})
+
 showState()
-app.append(heading, startButton, toneButton, stopButton, status)
+app.append(heading, canvas, startButton, toneButton, stopButton, status)
