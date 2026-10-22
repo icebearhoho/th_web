@@ -1,7 +1,7 @@
 export type TaskStatus = 'queued' | 'downloading' | 'decoding' | 'ready' | 'cancelled' | 'failed'
 
 /** Why a task failed. Keeps fetch, HTTP and decode problems apart for the UI. */
-export type QueueErrorKind = 'network' | 'http' | 'decode' | 'aborted'
+export type QueueErrorKind = 'network' | 'http' | 'decode' | 'aborted' | 'unknown'
 
 export interface AudioTask {
   readonly id: string
