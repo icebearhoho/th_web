@@ -1,0 +1,48 @@
+.data-grid {
+  --grid-text: #111827;
+  --grid-muted: #4b5563;
+  --grid-border: #6b7280;
+  --grid-header-bg: #e5e7eb;
+  --grid-accent: #1d4ed8;
+  --grid-selected-bg: #dbeafe;
+  --grid-bg: #ffffff;
+  color: var(--grid-text);
+  font-size: 1rem;
+}
+
+.data-grid__toolbar { display: flex; align-items: center; gap: 0.75rem; margin-block-end: 0.75rem; }
+.data-grid__label { font-weight: 600; }
+.data-grid__input {
+  min-height: 2.5rem; min-width: 16rem; padding: 0.25rem 0.75rem;
+  border: 2px solid var(--grid-border); border-radius: 0.375rem;
+  color: var(--grid-text); background: var(--grid-bg); font: inherit;
+}
+
+.data-grid__scroll { overflow-x: auto; }
+.data-grid__table { width: 100%; border-collapse: collapse; background: var(--grid-bg); }
+.data-grid__caption { text-align: start; font-size: 1.25rem; font-weight: 700; padding-block-end: 0.5rem; }
+.data-grid__table th,
+.data-grid__table td { border: 1px solid var(--grid-border); padding: 0.5rem 0.75rem; text-align: start; }
+.data-grid__table th { background: var(--grid-header-bg); }
+.data-grid__table td { min-height: 2.5rem; }
+.data-grid__empty { text-align: center; color: var(--grid-muted); }
+
+.data-grid__table tr.is-selected td { background: var(--grid-selected-bg); }
+.data-grid__table tr.is-selected td:first-child { box-shadow: inset 6px 0 0 var(--grid-accent); font-weight: 700; }
+
+.data-grid__sort, .data-grid__button {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  min-height: 2.5rem; min-width: 2.5rem; padding: 0.25rem 0.75rem;
+  border: 2px solid transparent; border-radius: 0.375rem;
+  font: inherit; font-weight: 600; color: var(--grid-text); background: transparent; cursor: pointer;
+}
+.data-grid__button { border-color: var(--grid-accent); color: var(--grid-accent); background: var(--grid-bg); }
+.data-grid__button[aria-disabled='true'] { border-color: var(--grid-border); color: var(--grid-muted); cursor: not-allowed; }
+.data-grid__sort:hover { background: #cbd5e1; }
+
+:where(.data-grid) :focus-visible { outline: 3px solid var(--grid-accent); outline-offset: 2px; }
+.data-grid__table td:focus-visible { outline-offset: -3px; }
+
+.data-grid__footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-block-start: 0.75rem; }
+.data-grid__status { margin: 0; color: var(--grid-muted); }
+.data-grid__pager { display: flex; align-items: center; gap: 0.75rem; }
