@@ -25,9 +25,9 @@ export default function App() {
         getRowId={(row) => row.id}
         onRowSelect={setLastPicked}
       />
-      <p role="status" className="page__picked">
+      <output className="page__picked">
         {lastPicked ? `Last activated: ${lastPicked.name} (${lastPicked.id})` : 'Press Enter on a row to activate it. Press Space to select it.'}
-      </p>
+      </output>
     </main>
   )
 }

@@ -153,6 +153,7 @@ export function DataGrid<T>({
       <div className="data-grid__scroll">
         <table
           ref={tableRef}
+          // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role -- native table needs role="grid" for arrow-key navigation and aria-selected rows
           role="grid"
           aria-labelledby={captionId}
           aria-rowcount={sorted.length + 1}
@@ -201,7 +202,6 @@ export function DataGrid<T>({
                     {columns.map((column, colIndex) => (
                       <td
                         key={column.accessorKey}
-                        role="gridcell"
                         data-row={rowIndex}
                         data-col={colIndex}
                         tabIndex={rowIndex === activeRow && colIndex === activeCol ? 0 : -1}
@@ -218,9 +218,9 @@ export function DataGrid<T>({
       </div>
 
       <div className="data-grid__footer">
-        <p id={statusId} role="status" aria-live="polite" className="data-grid__status">
+        <output id={statusId} aria-live="polite" className="data-grid__status">
           {statusText}
-        </p>
+        </output>
         <nav aria-label="Pagination" className="data-grid__pager">
           <button type="button" className="data-grid__button" aria-disabled={safePageIndex === 0} onClick={() => goToPage(safePageIndex - 1)}>
             Previous
