@@ -10,6 +10,10 @@ interface QueueEntry {
   readonly task: AudioTask
   readonly resolve: (buffer: AudioBuffer) => void
   readonly reject: (reason: unknown) => void
+  /** Settles once the task enqueued right before this one is fully handled (delivered, failed or cancelled). */
+  readonly previousSettled: Promise<void>
+  /** Marks this task as handled, which lets the next task in line deliver its result. */
+  readonly markSettled: () => void
 }
 
 export class AudioTaskQueue {
@@ -19,6 +23,7 @@ export class AudioTaskQueue {
   private readonly active = new Map<string, QueueEntry>()
   private readonly listeners = new Set<QueueListener>()
   private nextId = 1
+  private lastSettled: Promise<void> = Promise.resolve()
 
   constructor(options: Pick<QueueOptions, 'concurrency'>, worker: TaskWorker) {
     if (!Number.isInteger(options.concurrency) || options.concurrency < 1) {
@@ -40,8 +45,13 @@ export class AudioTaskQueue {
   enqueue(trackUrl: string): { id: string; result: Promise<AudioBuffer> } {
     const id = `task-${this.nextId++}`
     const task: AudioTask = { id, trackUrl, controller: new AbortController() }
+    const previousSettled = this.lastSettled
+    let markSettled: () => void = () => {}
+    this.lastSettled = new Promise<void>((resolve) => {
+      markSettled = resolve
+    })
     const result = new Promise<AudioBuffer>((resolve, reject) => {
-      this.pending.push({ task, resolve, reject })
+      this.pending.push({ task, resolve, reject, previousSettled, markSettled })
     })
     this.emit({ type: 'task-queued', id })
     this.pump()
@@ -55,7 +65,7 @@ export class AudioTaskQueue {
       const [entry] = this.pending.splice(waitingIndex, 1)
       entry.task.controller.abort()
       this.emit({ type: 'task-cancelled', id })
-      entry.reject(createAbortError())
+      this.rejectEntry(entry, createAbortError())
       return
     }
     // A running task is aborted here and settled in run(), once the worker stops.
@@ -78,16 +88,20 @@ export class AudioTaskQueue {
       (buffer) => {
         if (task.controller.signal.aborted) return this.settleCancelled(entry)
         this.active.delete(task.id)
-        this.emit({ type: 'task-ready', id: task.id })
-        entry.resolve(buffer)
         this.pump()
+        // Results are delivered in arrival order: wait until every earlier task is handled.
+        void entry.previousSettled.then(() => {
+          this.emit({ type: 'task-ready', id: task.id })
+          entry.resolve(buffer)
+          entry.markSettled()
+        })
       },
       (error: unknown) => {
         if (task.controller.signal.aborted) return this.settleCancelled(entry)
         this.active.delete(task.id)
         const kind: QueueErrorKind = error instanceof TaskError ? error.kind : 'unknown'
         this.emit({ type: 'task-failed', id: task.id, error: kind })
-        entry.reject(error)
+        this.rejectEntry(entry, error)
         this.pump()
       },
     )
@@ -96,8 +110,14 @@ export class AudioTaskQueue {
   private settleCancelled(entry: QueueEntry): void {
     this.active.delete(entry.task.id)
     this.emit({ type: 'task-cancelled', id: entry.task.id })
-    entry.reject(createAbortError())
+    this.rejectEntry(entry, createAbortError())
     this.pump()
+  }
+
+  /** Errors are reported at once, but the task only counts as handled after the ones before it. */
+  private rejectEntry(entry: QueueEntry, reason: unknown): void {
+    entry.reject(reason)
+    void entry.previousSettled.then(entry.markSettled)
   }
 
   private emit(event: QueueEvent): void {
