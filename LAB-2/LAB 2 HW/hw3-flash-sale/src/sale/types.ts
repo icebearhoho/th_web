@@ -21,6 +21,6 @@ export interface SaleState {
 export type SaleAction =
   | { type: 'reserve'; id: string; buyerId: string; quantity: number; now: number; holdMs: number }
   | { type: 'expire'; now: number }
-  | { type: 'checkout'; id: string }
+  | { type: 'checkout'; id: string; now: number }
 
 export type ApiErrorKind = 'network' | 'sold-out' | 'unknown'
