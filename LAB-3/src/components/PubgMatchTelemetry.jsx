@@ -27,17 +27,34 @@ export function PubgMatchTelemetry({ squadId = 'te' }) {
   }
 
   if (view.status === 'LOADING') {
-    return <p className={styles.panel} aria-busy="true">Syncing KRAFTON radar…</p>;
+    return (
+      <section
+        className={`${styles.panel} ${styles.skeleton}`}
+        aria-busy="true"
+        aria-label="Syncing KRAFTON radar"
+      >
+        <span className={styles.bar} style={{ width: '55%' }} />
+        <span className={styles.bar} style={{ width: '80%' }} />
+        <span className={styles.bar} style={{ width: '70%' }} />
+        <span className={styles.bar} style={{ width: '60%' }} />
+        <span className={styles.bar} style={{ width: '75%' }} />
+      </section>
+    );
   }
 
   if (view.status === 'ERROR') {
     return (
-      <p className={styles.panel}>
-        Blue-Zone link lost: {view.error}
-        <button type="button" onClick={() => setRetryTick((t) => t + 1)}>
-          Reconnect Satellite
+      <section className={`${styles.panel} ${styles.error}`} role="alert">
+        <h3>Blue-Zone link lost</h3>
+        <p>{view.error}</p>
+        <button
+          type="button"
+          className={styles.retry}
+          onClick={() => setRetryTick((t) => t + 1)}
+        >
+          Reconnect Satellite (Retry)
         </button>
-      </p>
+      </section>
     );
   }
 

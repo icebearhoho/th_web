@@ -52,3 +52,62 @@
 }
 .stats dt { color: var(--color-muted); }
 .stats dd { margin: 0; font-weight: 600; }
+
+/* ---------- skeleton (220px, same as the success panel) ---------- */
+.skeleton {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+}
+
+.bar {
+  display: block;
+  height: 1.1rem;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    #1f2a3a 0%,
+    #2f4a6b 50%,   /* blue-zone shimmer */
+    #1f2a3a 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.bar:first-child { height: 1.6rem; } /* the "title" bar */
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* respect users who turned off animations */
+@media (prefers-reduced-motion: reduce) {
+  .bar { animation: none; }
+}
+
+/* ---------- error alert ---------- */
+.error {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 0.5rem;
+  border: 1px solid #ff8a80;
+}
+.error h3 { margin: 0; color: #ff8a80; }
+.error p { margin: 0; color: var(--color-muted); }
+
+.retry {
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  color: #111;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.retry:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
