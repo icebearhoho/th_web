@@ -1,0 +1,20 @@
+:root {
+  --color-bg: #0f1115;
+  --color-surface: #1a1d24;
+  --color-text: #e8e8e8;
+  --color-muted: #9aa0a6;
+  --color-accent: #f2a900;
+  --radius: 12px;
+  --space: 1rem;
+  font-family: system-ui, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space);
+}
+img { max-width: 100%; display: block; }
