@@ -1,6 +1,6 @@
 import { DeveloperCard } from './components/DeveloperCard.jsx';
 import { ScientistDirectory } from './components/ScientistDirectory.jsx';
-
+import { SquadRadar } from './components/SquadRadar.jsx';
 export function App() {
   return (
     <main>
@@ -14,6 +14,10 @@ export function App() {
       <section aria-labelledby="ex2-title">
         <h2 id="ex2-title">Exercise 2 — Scientist Directory</h2>
         <ScientistDirectory />
+      </section>
+      <section aria-labelledby="ex3-title">
+        <h2 id="ex3-title">Exercise 3 — PUBG VN Live Telemetry</h2>
+        <SquadRadar />
       </section>
     </main>
   );

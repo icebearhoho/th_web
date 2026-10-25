@@ -1,0 +1,54 @@
+.radar {
+  display: grid;
+  gap: var(--space);
+  max-width: 640px;
+  padding: var(--space);
+  background: var(--color-surface);
+  border-radius: var(--radius);
+}
+.radar h3 { margin: 0; }
+
+.picker {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.picker button {
+  padding: 0.5rem 0.9rem;
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid #3a3f4b;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.picker button[aria-pressed='true'] {
+  background: var(--color-accent);
+  color: #111;
+  font-weight: 600;
+}
+.picker button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.panel {
+  margin: 0;
+  min-height: 220px; /* same height in every state, so nothing jumps (CLS 0) */
+  padding: var(--space);
+  background: var(--color-bg);
+  border-radius: 8px;
+}
+.panel h3 { margin: 0 0 0.75rem; }
+
+.stats {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+}
+.stats dt { color: var(--color-muted); }
+.stats dd { margin: 0; font-weight: 600; }
