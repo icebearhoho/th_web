@@ -31,6 +31,18 @@ export function ScientistDirectory({ initialData = SMART_PEOPLE }) {
     const value = e.target.valueAsNumber; // a number, not the string '160'
     setMinIq(Number.isNaN(value) ? 0 : value); // empty box -> NaN -> 0
   };
+// Immutable delete: filter() returns a NEW array, so Object.is sees a change
+  const handleDelete = (id) => {
+    setPeople((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  // Reset everything back to the original snapshot
+  const handleReset = () => {
+    setPeople(initialData);
+    setQuery('');
+    setMinIq(160);
+    setSortBy('iq-desc');
+  };
 
   return (
     <section className={styles.directory} aria-labelledby="dir-title">
@@ -72,17 +84,36 @@ export function ScientistDirectory({ initialData = SMART_PEOPLE }) {
           <option value="age-desc">Age (old → young)</option>
         </select>
       </form>
-
-      <ul className={styles.list}>
-        {visiblePeople.map((p) => (
+      <p className={styles.toolbar}>
+        <output role="status" aria-live="polite">
+          Found {visiblePeople.length} of {people.length} pioneers
+        </output>
+        <button type="button" className={styles.reset} onClick={handleReset}>
+          Reset
+        </button>
+      </p>
+      {visiblePeople.length === 0 ? (
+        <p className={styles.empty}>No pioneers match your filters.</p>
+      ) : (
+        <ul className={styles.list}>
+          {visiblePeople.map((p) => (
           <li key={p.id} className={styles.row}>
             <span className={styles.name}>{p.name}</span>
             <span className={styles.meta}>
               IQ {p.iq} · Age {p.age}
             </span>
+            <button
+              type="button"
+              className={styles.delete}
+              onClick={() => handleDelete(p.id)}
+              aria-label={`Delete ${p.name}`}
+            >
+              Delete
+            </button>
           </li>
-        ))}
-      </ul>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
