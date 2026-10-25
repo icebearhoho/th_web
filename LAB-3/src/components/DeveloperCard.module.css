@@ -1,0 +1,109 @@
+.card {
+  /* local custom properties: only this card uses them */
+  --card-pad: clamp(1rem, 4vw, 1.5rem);
+  --avatar-size: 64px;
+
+  max-width: 420px;
+  width: 100%;
+  padding: var(--card-pad);
+  background: var(--color-surface);
+  border: 1px solid #2a2e37;
+  border-radius: var(--radius);
+  display: grid;
+  gap: var(--space);
+}
+
+/* ---------- header: avatar + name ---------- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar,
+.initials {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.avatar {
+  object-fit: cover;
+}
+
+.initials {
+  display: grid;
+  place-items: center;
+  background: var(--color-accent);
+  color: #111;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.header p {
+  margin: 0.25rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- metrics: dl as a grid ---------- */
+.metrics {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.metrics dt {
+  grid-row: 1;          /* all labels on row 1 */
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.metrics dd {
+  grid-row: 2;          /* all values on row 2 */
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* ---------- skills ---------- */
+.skills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: #2a2e37;
+  font-size: 0.85rem;
+}
+
+.level {
+  color: var(--color-muted);
+}
+
+/* ---------- 375px phones ---------- */
+@media (max-width: 400px) {
+  .metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+  .metrics dt,
+  .metrics dd {
+    grid-row: auto;     /* stop forcing 2 rows, stack instead */
+  }
+}
