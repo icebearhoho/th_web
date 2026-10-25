@@ -1,4 +1,0 @@
-:root { color-scheme: light; font-family: system-ui, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; }
-body { margin: 0; background: #ffffff; color: #111827; }
-.page { max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem; }
-.page__picked { display: block; margin-block-start: 1rem; color: #4b5563; }
