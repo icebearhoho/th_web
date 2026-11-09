@@ -29,7 +29,7 @@ export const PianoKey = memo(function PianoKey({
         aria-label={ariaLabel}
         aria-pressed={isPressed}
         onPointerDown={(e) => {
-          if (e.button === 0) onNoteOn(midi);
+          if (e.button === 0) onNoteOn(midi, 'pointer');
         }}
         onPointerUp={() => onNoteOff(midi)}
         onPointerLeave={() => onNoteOff(midi)}
