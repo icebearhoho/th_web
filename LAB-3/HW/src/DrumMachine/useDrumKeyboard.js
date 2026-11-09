@@ -16,6 +16,7 @@ export function useDrumKeyboard(padMap, onTriggerPad, isEnabled = true) {
     if (!isEnabled) return undefined;
 
     const onKeyDown = (e) => {
+      if (e.defaultPrevented) return;                    // another widget (the piano) already used this key
       if (e.repeat) return;                              // OS auto-repeat flood
       if (e.ctrlKey || e.metaKey || e.altKey) return;    // keep Ctrl+S, Alt+Tab... working
       if (isTypingTarget(e.target)) return;              // user is typing in a field
