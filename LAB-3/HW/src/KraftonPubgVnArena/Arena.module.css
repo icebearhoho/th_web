@@ -1,0 +1,141 @@
+.arena {
+  display: grid;
+  gap: var(--space);
+  min-width: 0;
+  padding: clamp(1rem, 4vw, 1.5rem);
+  background: var(--color-surface);
+  border-radius: var(--radius);
+}
+.header h2 { margin: 0; }
+.header p { margin: 0.25rem 0 0; color: var(--color-muted); }
+.dropsSection, .leaderboard { display: grid; gap: 0.75rem; min-width: 0; }
+.dropsSection h3, .leaderboard h3 { margin: 0; }
+
+/* ---------- test tools ---------- */
+.testTools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+.testTools button {
+  min-height: 36px;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px dashed #5a6070;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ---------- airdrop cards ---------- */
+.drops {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.card {
+  height: 100%;
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  padding: 1rem;
+  background: var(--color-bg);
+  border: 2px solid #3a3f4b;
+  border-radius: 12px;
+}
+.phase_AIRDROP_LIVE { border-color: var(--color-accent); }
+.phase_LOOTED_OUT,
+.phase_EXPIRED { opacity: 0.75; }
+
+.cardHeader h4 { margin: 0; font-size: 1.05rem; }
+.price { margin: 0.25rem 0 0; font-size: 1.25rem; font-weight: 800; color: var(--color-accent); }
+
+.facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+}
+.facts dt { color: var(--color-muted); }
+.facts dd { margin: 0; font-weight: 600; }
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: #2a2e37;
+  font-size: 0.8rem;
+}
+.phase_AIRDROP_LIVE .badge { background: var(--color-accent); color: #111; }
+
+.timer { margin: 0; font-variant-numeric: tabular-nums; font-weight: 700; }
+
+.claim {
+  min-height: 44px;
+  font: inherit;
+  font-weight: 700;
+  color: #111;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.claim:disabled { background: #3a3f4b; color: var(--color-muted); cursor: not-allowed; }
+
+.message { min-height: 1.4em; font-size: 0.9rem; }
+.info { color: var(--color-muted); }
+.success { color: #81c784; }
+.error { color: #ff8a80; }
+
+/* ---------- leaderboard (step 4) ---------- */
+.filters {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  max-width: 520px;
+}
+.filters input,
+.filters select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.5rem;
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid #3a3f4b;
+  border-radius: 8px;
+}
+.tableScroll { overflow-x: auto; border-radius: 8px; }
+.table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.table caption { text-align: left; padding-bottom: 0.5rem; color: var(--color-muted); }
+.table th,
+.table td { padding: 0.6rem 0.75rem; text-align: right; border-bottom: 1px solid #2a2e37; }
+.table thead th { color: var(--color-muted); font-weight: 600; }
+.table th:nth-child(2),
+.table td:nth-child(2) { text-align: left; }
+.table th[aria-sort='descending'] { color: var(--color-accent); }
+.table tbody th { font-weight: 700; }
+
+/* ---------- shared focus ring ---------- */
+.testTools button:focus-visible,
+.claim:focus-visible,
+.filters input:focus-visible,
+.filters select:focus-visible,
+.tableScroll:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
