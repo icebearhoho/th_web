@@ -76,7 +76,145 @@ with `git checkout -- <file>`. Buggy code was never committed.
 ---
 
 # HW2 — 88-Key Polyphonic Piano
-(to be completed)
+
+| # | Failure mode | Detected with | Fix commit |
+|---|--------------|---------------|------------|
+| 01 | Inline callbacks defeat React.memo: all 88 keys re-render | React Profiler | `47e41c2` |
+| 02 | Notes stay stuck when the pointer is released outside the key | Active-voices counter + ears | `d6d0a5c` |
+| 03 | Stop does not cancel already-scheduled notes | Listening + active-voices counter | `a983584` |
+
+## Failure #01: Inline callbacks defeat React.memo
+- **Prompt**: "Render 88 PianoKey components wrapped in React.memo."
+- **AI Code**:
+  ```jsx
+  {PIANO_KEYS.map((k) => (
+    <PianoKey key={k.midi} {...k} isPressed={pressed.has(k.midi)}
+      onNoteOn={() => noteOn(k.midi)}
+      onNoteOff={() => noteOff(k.midi)} />
+  ))}
+  ```
+- **Bug**: `React.memo` compares props with `Object.is` (the same shallowEqual idea
+  as my Lab 2 memo). Each arrow function is a new object on every render, so every
+  key's props "change" and all 88 keys re-render on every note. memo does nothing.
+- **DevTools Proof**: React Profiler, one key press: 88 PianoKey bars rendered,
+  "Why did this render? Props changed: onNoteOn, onNoteOff" (Figure H2-A1).
+  After the fix only 1 PianoKey renders and 87 show "Did not render" (Figure H2-A2).
+- **Engineering Fix (commit `47e41c2`)**: `noteOn` / `noteOff` are
+  `useCallback(..., [])` (they only use refs and functional setState) and are passed
+  directly. PianoKey calls `onNoteOn(midi)` with its own `midi` prop, and
+  `isPressed` is a plain boolean.
+
+## Failure #02: Stuck notes when the release happens outside the key
+- **Prompt**: "Start the note on pointerdown and stop it on pointerup."
+- **AI Code**:
+  ```jsx
+  <button onPointerDown={() => onNoteOn(midi)}
+          onPointerUp={() => onNoteOff(midi)}>
+  ```
+- **Bug**: If the pointer is released somewhere else (outside the key, over
+  DevTools, outside the window), or the window loses focus mid-note, the key never
+  receives `pointerup`. The oscillator keeps sounding, the key stays highlighted and
+  the voice is never freed. I hit this myself while testing: two keys stayed
+  orange with "Active voices: 2" while nothing was held.
+- **DevTools Proof**: Press a key, drag out over DevTools and release: the key
+  stays orange and "Active voices" stays at 1 (Figure H2-B1). After the fix the
+  count drops to 0 on release (Figure H2-B2).
+- **Engineering Fix (commit `d6d0a5c`)**: Also handle `pointerleave` /
+  `pointercancel` on the key, and add window-level `pointerup`, `pointercancel`,
+  `blur` and `visibilitychange` listeners that release every note started by the
+  pointer or keyboard. All listeners are removed in the effect cleanup.
+
+## Failure #03: Stop does not cancel scheduled notes
+- **Prompt**: "Replay the recorded notes at the selected speed."
+- **AI Code**:
+  ```js
+  sequence.forEach((ev) => {
+    setTimeout(() => noteOn(ev.midi), ev.startMs / speed);
+    setTimeout(() => noteOff(ev.midi), (ev.startMs + ev.durationMs) / speed);
+  });
+  ```
+- **Bug**: Every note is scheduled up front and none of the timer ids are kept, so
+  "Stop" (or unmounting) cannot cancel them. The melody keeps playing after Stop,
+  and a note that was sounding at Stop may never be released.
+- **DevTools Proof**: Record about 10 s, Play, press Stop after 2 s: notes keep
+  playing and "Active voices" keeps changing (Figure H2-C1). After the fix, Stop
+  gives instant silence and voices drop to 0 (Figure H2-C2).
+- **Engineering Fix (commit `a983584`)**: `playSequence` walks the FIFO queue with
+  an abortable `wait(deltaMs / speed, signal)`, keeps every note-off timer and every
+  sounding note in a Set, and on `abort` clears all timers and releases all notes.
+  Stop and unmount call `controller.abort()`.
+
+---
 
 # HW3 — KRAFTON PUBG VN Arena
-(to be completed)
+
+| # | Failure mode | Detected with | Fix commit |
+|---|--------------|---------------|------------|
+| 01 | `setSeconds(s => s - 1)` countdown drifts in background tabs | Comparing with the system clock | `0242b1f` |
+| 02 | No in-flight lock: a double click sends two claims | `[arena-server]` console log | `fa9af91`, `e3609e6` |
+| 03 | Optimistic update without rollback shows wrong stock after 409 | Rival-rush test tool | `fa9af91` |
+
+## Failure #01: Decrementing countdown drifts
+- **Prompt**: "Make a countdown hook for the airdrop."
+- **AI Code**:
+  ```js
+  const [seconds, setSeconds] = useState(initialSeconds);
+  useEffect(() => {
+    const id = setInterval(() => setSeconds((s) => s - 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+  ```
+- **Bug**: It assumes the interval fires exactly every 1000 ms. Chrome throttles
+  timers in background tabs (down to about once per minute), so the counter only
+  loses 1 per actual tick and falls behind real time. It also never stops at 0.
+- **DevTools Proof**: Put the AI hook next to mine, switch to another tab for
+  about 1 minute and come back: the AI timer is far behind, mine matches the clock
+  immediately (Figure H3-A1).
+- **Engineering Fix (commit `0242b1f`)**: `usePubgAirdropTimer` recomputes
+  `max(0, target - (Date.now() + serverOffsetMs))` on every tick and on
+  `visibilitychange`, so a missed tick can never accumulate error. The interval
+  stops at 0 and state only updates when the displayed second changes.
+
+## Failure #02: Double click claims twice
+- **Prompt**: "Add a Claim button that calls api.claim and decreases stock."
+- **AI Code**:
+  ```jsx
+  const handleClaim = async () => {
+    setStock((s) => s - 1);
+    await api.claim(drop.id);
+  };
+  <button onClick={handleClaim}>Claim</button>
+  ```
+- **Bug**: Nothing blocks a second click while the first request is pending. A fast
+  double click sends two claims, takes two items and deducts stock twice.
+  Disabling the button from state alone is not enough, because the second click can
+  arrive before React re-renders.
+- **DevTools Proof**: Double-click Claim: the console shows two
+  `[arena-server] claim request` lines and "Yours" becomes 2 (Figure H3-B1). After
+  the fix: one request, one item (Figure H3-B2).
+- **Engineering Fix (commits `fa9af91`, `e3609e6`)**: a synchronous `inFlightRef`
+  Set blocks the second click immediately; the reducer's `claimStart` returns the
+  same state while a `claimId` holds the lock; the button is disabled with
+  `aria-busy` while claiming.
+
+## Failure #03: Optimistic update with no rollback
+- **Prompt**: "Make the claim feel instant with an optimistic update."
+- **AI Code**:
+  ```js
+  setStock((s) => s - 1);
+  try {
+    await api.claim(drop.id);
+  } catch (err) {
+    setError(err.message); // stock stays deducted
+  }
+  ```
+- **Bug**: On 409 (or 503) the error is shown but the optimistic deduction is never
+  undone, so the UI shows less stock than really exists and the card can wrongly
+  show "Looted out".
+- **DevTools Proof**: "Server error (next claim → 503)" then Claim: the AI version
+  ends with the stock 1 lower than before even though nothing was claimed
+  (Figure H3-C1). After the fix the stock returns to its previous value and the
+  message reads "503 — Server busy" (Figure H3-C2).
+- **Engineering Fix (commit `fa9af91`)**: `claimRollback` restores the stock (or
+  takes the server's real stock on 409), unlocks only that drop, and only if its
+  `claimId` still holds the lock, so a late answer from an old claim is ignored.
