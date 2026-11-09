@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import { createDrops } from './arenaData.js';
+import { createDrops, SQUAD_STANDINGS } from './arenaData.js';
 import { ApiError, createArenaApi } from './arenaApi.js';
 import { arenaReducer, createArenaState } from './arenaReducer.js';
 import { AirdropCard } from './AirdropCard.jsx';
+import { Leaderboard } from './Leaderboard.jsx';
 import styles from './Arena.module.css';
 
 // Measured server-minus-client clock difference. 0 in this mock.
@@ -88,6 +89,8 @@ export function KraftonPubgVnArena() {
           ))}
         </ul>
       </section>
+
+      <Leaderboard standings={SQUAD_STANDINGS} />
     </section>
   );
 }
