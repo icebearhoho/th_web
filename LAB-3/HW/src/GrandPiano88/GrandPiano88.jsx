@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { PIANO_KEYS, midiToFreq } from './pianoKeys.js';
 import { PolyphonicSynth } from './PolyphonicSynth.js';
 import { PianoKey } from './PianoKey.jsx';
+import { buildSequence, playSequence } from './sequencer.js';
 import styles from './GrandPiano88.module.css';
 
 const MAX_VOICES = 8;
@@ -21,23 +22,29 @@ function removeFrom(set, value) {
 }
 
 export function GrandPiano88() {
-  const synthRef = useRef(null);   // audio engine is not UI data
+  const speedId = useId();
+
+  const synthRef = useRef(null);     // audio engine is not UI data
   const scrollerRef = useRef(null);
+  const recordingRef = useRef(null); // { startedAt, open: Map, notes: [] } while recording
+  const playbackRef = useRef(null);  // AbortController while playing
 
   const [pressed, setPressed] = useState(() => new Set());
   const [voiceCount, setVoiceCount] = useState(0);
+  const [mode, setMode] = useState('IDLE'); // 'IDLE' | 'RECORDING' | 'PLAYING'
+  const [sequence, setSequence] = useState([]);
+  const [speed, setSpeed] = useState(1);
 
-  // Start the view centred on middle C (C4): set scrollLeft on the scroll box only
+  // Start the view around middle C (C4)
   useEffect(() => {
-    const scroller = scrollerRef.current;
-    const c4 = scroller?.querySelector('[data-midi="60"]');
-    if (!scroller || !c4) return;
-    scroller.scrollLeft = c4.offsetLeft + c4.offsetWidth / 2 - scroller.clientWidth / 2;
+    const c4 = scrollerRef.current?.querySelector('[data-midi="60"]');
+    c4?.scrollIntoView({ inline: 'center', block: 'nearest' });
   }, []);
 
-  // Release audio on unmount
+  // Unmount: stop playback first, then release audio
   useEffect(() => {
     return () => {
+      playbackRef.current?.abort();
       synthRef.current?.close();
       synthRef.current = null;
     };
@@ -52,6 +59,9 @@ export function GrandPiano88() {
       return stolen === null ? next : removeFrom(next, stolen);
     });
     setVoiceCount(synth.activeVoices);
+
+    const rec = recordingRef.current;
+    if (rec) rec.open.set(midi, performance.now());
   }, []);
 
   const noteOff = useCallback((midi) => {
@@ -60,7 +70,78 @@ export function GrandPiano88() {
     synth.noteOff(midi);
     setPressed((prev) => removeFrom(prev, midi));
     setVoiceCount(synth.activeVoices);
+
+    const rec = recordingRef.current;
+    if (rec?.open.has(midi)) {
+      const start = rec.open.get(midi);
+      rec.open.delete(midi);
+      rec.notes.push({
+        id: crypto.randomUUID(),
+        midi,
+        freqHz: midiToFreq(midi),
+        startMs: start - rec.startedAt,
+        durationMs: performance.now() - start,
+      });
+    }
   }, []);
+
+  const startRecording = () => {
+    recordingRef.current = { startedAt: performance.now(), open: new Map(), notes: [] };
+    setMode('RECORDING');
+  };
+
+  const stopRecording = () => {
+    const rec = recordingRef.current;
+    recordingRef.current = null;
+    setMode('IDLE');
+    if (!rec) return;
+    const now = performance.now();
+    // close notes still held when recording stopped
+    rec.open.forEach((start, midi) => {
+      rec.notes.push({
+        id: crypto.randomUUID(),
+        midi,
+        freqHz: midiToFreq(midi),
+        startMs: start - rec.startedAt,
+        durationMs: now - start,
+      });
+    });
+    setSequence(buildSequence(rec.notes));
+  };
+
+  const play = async () => {
+    if (sequence.length === 0) return;
+    const controller = new AbortController();
+    playbackRef.current = controller;
+    setMode('PLAYING');
+    try {
+      await playSequence(sequence, {
+        speed,
+        signal: controller.signal,
+        noteOn,
+        noteOff,
+      });
+    } catch (err) {
+      if (err.name !== 'AbortError') console.error(err);
+    } finally {
+      if (playbackRef.current === controller) {
+        playbackRef.current = null;
+        setMode('IDLE');
+      }
+    }
+  };
+
+  const stop = () => playbackRef.current?.abort();
+
+  // Derived status text (not separate state)
+  const statusText =
+    mode === 'RECORDING'
+      ? 'Recording… play some notes'
+      : mode === 'PLAYING'
+        ? `Playing ${sequence.length} notes at ${speed}×`
+        : sequence.length > 0
+          ? `${sequence.length} notes recorded`
+          : 'Ready';
 
   return (
     <section className={styles.piano} aria-labelledby="piano-title">
@@ -71,8 +152,49 @@ export function GrandPiano88() {
         </p>
       </header>
 
+      <form className={styles.controls} onSubmit={(e) => e.preventDefault()}>
+        <button
+          type="button"
+          aria-pressed={mode === 'RECORDING'}
+          disabled={mode === 'PLAYING'}
+          onClick={mode === 'RECORDING' ? stopRecording : startRecording}
+        >
+          {mode === 'RECORDING' ? '■ Stop recording' : '● Record'}
+        </button>
+        <button
+          type="button"
+          disabled={mode !== 'IDLE' || sequence.length === 0}
+          onClick={play}
+        >
+          ▶ Play
+        </button>
+        <button type="button" disabled={mode !== 'PLAYING'} onClick={stop}>
+          ■ Stop
+        </button>
+        <button
+          type="button"
+          disabled={mode !== 'IDLE' || sequence.length === 0}
+          onClick={() => setSequence([])}
+        >
+          Clear
+        </button>
+
+        <label htmlFor={speedId}>Speed</label>
+        <select
+          id={speedId}
+          value={speed}
+          disabled={mode === 'PLAYING'}
+          onChange={(e) => setSpeed(Number(e.target.value))}
+        >
+          <option value={0.5}>0.5×</option>
+          <option value={1}>1×</option>
+          <option value={2}>2×</option>
+        </select>
+      </form>
+
       <p className={styles.status}>
-        Active voices: <strong>{voiceCount}</strong> / {MAX_VOICES}
+        <output aria-live="polite">{statusText}</output>
+        {' · '}Active voices: <strong>{voiceCount}</strong> / {MAX_VOICES}
       </p>
 
       <section
